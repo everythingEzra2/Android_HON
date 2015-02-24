@@ -76,7 +76,7 @@ public class Home extends Activity
                 .commit();
     }
 
-
+    // change Title (I think)
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
