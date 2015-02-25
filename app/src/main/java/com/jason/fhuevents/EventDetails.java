@@ -1,30 +1,28 @@
 package com.jason.fhuevents;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Events.OnFragmentInteractionListener} interface
+ * {@link EventDetails.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Events#newInstance} factory method to
+ * Use the {@link EventDetails#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Events extends Fragment {
+public class EventDetails extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -32,7 +30,7 @@ public class Events extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private Button toEventDetailsButton;
+    private TextView message;
 
     /**
      * Use this factory method to create a new instance of
@@ -40,11 +38,11 @@ public class Events extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Events.
+     * @return A new instance of fragment ExchFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Events newInstance(String param1, String param2) {
-        Events fragment = new Events();
+    public static EventDetails newInstance(String param1, String param2) {
+        EventDetails fragment = new EventDetails();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -52,7 +50,7 @@ public class Events extends Fragment {
         return fragment;
     }
 
-    public Events() {
+    public EventDetails() {
         // Required empty public constructor
     }
 
@@ -63,15 +61,13 @@ public class Events extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_events, container, false);
+        return inflater.inflate(R.layout.fragment_event_details, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -85,28 +81,10 @@ public class Events extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Insert the fragment by replacing any existing fragment
+        Bundle bundle = getArguments();
 
-        toEventDetailsButton = (Button) getView().findViewById(R.id.to_event_details);
-        toEventDetailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Fragment fragment;
-                fragment = new EventDetails();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("message", "a message from beyond this fragment");
-
-                fragment.setArguments(bundle);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .addToBackStack("Events")
-                        .commit();
-            }
-        });
+        message = (TextView) getView().findViewById(R.id.display_message);
+        message.setText(bundle.getString("message"));
     }
 
     @Override

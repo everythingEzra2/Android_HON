@@ -1,12 +1,15 @@
 package com.jason.fhuevents;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
@@ -28,6 +31,9 @@ public class CampusMap extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private Button toBuildingDetailsButton;
+    private TextView editMe;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,6 +71,30 @@ public class CampusMap extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_campus_map, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        editMe = (TextView) getView().findViewById(R.id.edit_me);
+        toBuildingDetailsButton = (Button) getView().findViewById(R.id.to_building_details);
+
+        toBuildingDetailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new BuildingDetails();
+
+                Bundle bundle = new Bundle();
+                String toPassText = String.valueOf(editMe.getText());
+                bundle.putString("passMessage", toPassText);
+                fragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getFragmentManager();
+
+                fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("CampusMap_frag").commit();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
